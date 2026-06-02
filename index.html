@@ -2,168 +2,58 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vendingpreneurs Knowledge Quiz</title>
-<style>h
-  :root{--blue:#1f7af0;--blue2:#0ea5e9;--green:#16a34a;--red:#dc2626;--bg:#f4f7fb;--card:#fff;--ink:#0f2032;--muted:#5b6b7d;}
-  *{box-sizing:border-box;}
-  body{margin:0;font-family:-apple-system,BlinkMahcSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;}
-  .wrap{max-width:760px;margin:0 auto;padding:28px 18px 60px;}
-  .head{background:linear-gradient(110deg,var(--blue),var(--blue2));color:#fff;border-radius:16px;padding:26px 28px;box-shadow:0 8px 24px rgba(31,122,240,.25);}
-  .head h1{margin:0 0 6px;font-size:26px;}
-  .head p{margin:0;opacity:.92;font-size:15px;}
-  .card{background:var(--card);border-radius:16px;padding:26px;margin-top:20px;box-shadow:0 4px 18px rgba(16,32,50,.07);}
-  .bar{height:8px;background:#e6edf6;border-radius:6px;overflow:hidden;margin:0 0 18px;}
-  .bar > i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--blue2));width:0;transition:width .3s;}
-  .meta{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:6px;font-weight:600;}
-  .cat{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--blue);background:#eaf3ff;padding:4px 10px;border-radius:999px;margin-bottom:14px;}
-  .q{font-size:19px;font-weight:700;margin:0 0 18px;}
-  .opt{display:block;width:100%;text-align:left;border:2px solid #e2e9f1;background:#fff;border-radius:12px;padding:14px 16px;margin-bottom:10px;font-size:15px;cursor:pointer;transition:.15s;font-weight:500;color:var(--ink);}
-  .opt:hover{border-color:var(--blue);background:#f5f9ff;}
-  .opt .ltr{display:inline-flex;width:26px;height:26px;border-radius:50%;background:#eef3f9;color:var(--muted);font-weight:700;align-items:center;justify-content:center;margin-right:12px;font-size:13px;}
-  .opt.correct{border-color:var(--green);background:#ecfdf3;}
-  .opt.correct .ltr{background:var(--green);color:#fff;}
-  .opt.wrong{border-color:var(--red);background:#fef2f2;}
-  .opt.wrong .ltr{background:var(--red);color:#fff;}
-  .opt:disabled{cursor:default;}
-  .fb{margin-top:6px;font-weight:700;font-size:15px;}
-  .fb.ok{color:var(--green);} .fb.no{color:var(--red);}
-  .btn{display:inline-block;border:0;border-radius:12px;padding:14px 24px;font-size:15px;font-weight:700;cursor:pointer;background:linear-gradient(110deg,var(--blue),var(--blue2));color:#fff;box-shadow:0 4px 14px rgba(31,122,240,.3);}
-  .btn:disabled{opacity:.4;cursor:not-allowed;box-shadow:none;}
-  .row{display:flex;gap:12px;margin-top:20px;align-items:center;flex-wrap:wrap;}
-  .score-big{font-size:64px;font-weight:800;margin:6px 0;}
-  .pass{color:var(--green);} .fail{color:var(--red);}
-  .pill{display:inline-block;padding:6px 16px;border-radius:999px;font-weight:700;font-size:15px;}
-  .pill.pass{background:#ecfdf3;color:var(--green);} .pill.fail{background:#fef2f2;color:var(--red);}
-  .review h3{margin:24px 0 10px;font-size:16px;}
-  .ritem{border-left:4px solid #e2e9f1;padding:8px 0 8px 14px;margin-bottom:14px;}
-  .ritem.miss{border-color:var(--red);}
-  .ritem .rq{font-weight:600;font-size:14px;}
-  .ritem .ra{font-size:13px;color:var(--muted);margin-top:4px;}
-  .ritem .ra b{color:var(--green);}
-  .foot{margin-top:26px;text-align:center;font-size:14px;}
-  .foot a{color:var(--blue);font-weight:700;text-decoration:none;}
-  .foot a:hover{text-decoration:underline;}
-  .tag{font-size:12px;color:var(--muted);text-align:center;margin-top:30px;}
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Vendingpreneurs Training Quizzes</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:#f0f4f8;color:#0f2032;min-height:100vh}
+.hero{background:linear-gradient(120deg,#0f2032,#1e40af);color:#fff;padding:48px 24px 40px;text-align:center}
+.hero h1{font-size:28px;font-weight:800;margin-bottom:10px}
+.hero p{font-size:16px;opacity:.85;max-width:540px;margin:0 auto}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;max-width:820px;margin:40px auto;padding:0 20px}
+.card{background:#fff;border-radius:18px;padding:28px;box-shadow:0 4px 20px rgba(0,0,0,.08);text-decoration:none;color:#0f2032;transition:.2s;display:block;border:2px solid transparent}
+.card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.13)}
+.card.pkg{border-color:#7c3aed}.card.fin{border-color:#0369a1}
+.icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:16px}
+.icon.pkg{background:linear-gradient(110deg,#7c3aed,#a855f7)}.icon.fin{background:linear-gradient(110deg,#0369a1,#0ea5e9)}
+.card h2{font-size:20px;font-weight:700;margin-bottom:8px}
+.card p{font-size:13px;color:#64748b;line-height:1.55;margin-bottom:16px}
+.tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-right:5px;margin-bottom:4px}
+.tag.pkg{background:#ede9fe;color:#5b21b6}.tag.fin{background:#e0f2fe;color:#075985}
+.cta{display:inline-flex;align-items:center;gap:6px;margin-top:8px;padding:11px 20px;border-radius:10px;font-size:14px;font-weight:700;color:#fff;text-decoration:none}
+.cta.pkg{background:linear-gradient(110deg,#7c3aed,#a855f7)}.cta.fin{background:linear-gradient(110deg,#0369a1,#0ea5e9)}
+.admin-bar{text-align:center;padding:16px;margin-top:8px}
+.admin-bar a{font-size:12px;color:#94a3b8;text-decoration:none}
+.stats-row{display:flex;justify-content:center;gap:24px;margin-top:16px;flex-wrap:wrap}
+.stat{text-align:center}.stat .n{font-size:28px;font-weight:800;color:#fff}.stat .l{font-size:12px;margin-top:2px;color:rgba(255,255,255,.8)}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="head">
-    <h1>Vendingpreneurs Knowledge Quiz</h1>
-    <p>10 randomized questions &middot; pass with 80% (8 of 10) &middot; covers financing, credit-score paths, packages &amp; onboarding</p>
+<div class="hero">
+  <h1>Vendingpreneurs Training Quizzes</h1>
+  <p>Internal rep knowledge quizzes - 80% to pass - randomized each attempt</p>
+  <div class="stats-row">
+    <div class="stat"><div class="n">2</div><div class="l">Quizzes</div></div>
+    <div class="stat"><div class="n">94</div><div class="l">Total Questions</div></div>
+    <div class="stat"><div class="n">80%</div><div class="l">Pass Score</div></div>
   </div>
-  <div id="app"></div>
-  <div class="tag">Pulls 10 random questions each attempt from a bank of 40. &middot; Vendingpreneurs internal training</div>
 </div>
-<script>
-var BANK = [
-{"cat":"Financing","q":"Which financing option is the <em>default first choice</em> for most clients?","opts":["ClarityPay","Split It","Elective","Coach Financing"],"a":2},
-{"cat":"Financing","q":"What is the minimum credit score to start with Elective?","opts":["480+","550+","620+","700+"],"a":1},
-{"cat":"Financing","q":"Elective typically offers up to how many months of installments for well-qualified applicants (700+)?","opts":["6 months","12 months","18 months","36 months"],"a":2},
-{"cat":"Financing","q":"Which financing option requires <em>no credit check</em> and does <em>not</em> affect the customer's credit score?","opts":["Elective","ClarityPay","Coach Financing","Split It"],"a":3},
-{"cat":"Financing","q":"Split It is best described as:","opts":["Lowest monthly payments, requires 680+","No credit check, no ding to credit — simple payments spread over the year","18-month installments for 700+ score","Best for clients who want the longest term"],"a":1},
-{"cat":"Financing","q":"ClarityPay is best suited for clients who:","opts":["Want no credit check","Have a score below 550","Are looking for the lowest possible monthly payments","Need same-day funding"],"a":2},
-{"cat":"Financing","q":"What is the maximum financing limit for Elective?","opts":["$10,000","$15,000","$30,000","No limit"],"a":1},
-{"cat":"Financing","q":"What is the maximum financing limit for ClarityPay?","opts":["$10,000","$15,000","$30,000","$50,000"],"a":2},
-{"cat":"Financing","q":"What credit score does ClarityPay's 36-month term require?","opts":["600+","620+","680+","No minimum"],"a":2},
-{"cat":"Financing","q":"True or False: Split It charges the full amount monthly.","opts":["True","False"],"a":1},
-{"cat":"Financing","q":"What additional cost should clients expect when choosing Elective, Split It, or ClarityPay?","opts":["No extra cost","A 5% processing fee","A 15% financing fee to cover provider costs","An application fee that varies by lender"],"a":2},
-{"cat":"Financing","q":"Which option is the <em>last resort</em> when all financing options are declined?","opts":["Split It","ClarityPay","Elective","Coach Financing"],"a":3},
-{"cat":"Financing","q":"A client can put $3,000 down but can't finance the full balance. What's a creative solution?","opts":["Decline them","Partial pay + finance the remainder","Only offer Pay in Full","Send them to Elective only"],"a":1},
-{"cat":"Financing","q":"Which is true of the 'Pay in Full' (PIF) option?","opts":["Includes a 15% financing fee","No additional fees / best value","Requires 680+ credit","Up to 18 months"],"a":1},
-{"cat":"Financing","q":"True or False: Elective is available to California residents.","opts":["True","False"],"a":0},
-{"cat":"Financing","q":"True or False: Canadian residents can use Elective.","opts":["True","False"],"a":0},
-{"cat":"Credit Score Paths","q":"A prospect has a 720 score. What do you offer first?","opts":["Coach Financing","Split It","Elective","ClarityPay"],"a":2},
-{"cat":"Credit Score Paths","q":"A prospect has a 700+ score. What is the recommended financing order?","opts":["Coach → Split It","Elective → ClarityPay → Split It","Split It → Elective","ClarityPay only"],"a":1},
-{"cat":"Credit Score Paths","q":"A prospect has a 580 score. What do you lead with?","opts":["Coach Financing","ClarityPay","Elective","Split It"],"a":2},
-{"cat":"Credit Score Paths","q":"A prospect has a 580 score and Elective declines them. What's the next step?","opts":["End the conversation","Try ClarityPay, and ask if Split It or a high-limit card is an option","Go straight to Coach Financing","Offer Pay in Full only"],"a":1},
-{"cat":"Credit Score Paths","q":"A prospect's score is below 550. What is the correct approach?","opts":["Lead with Elective","Lead with ClarityPay","Ask if Split It or a high-limit card is possible before going to Coach Financing","Tell them financing isn't available"],"a":2},
-{"cat":"Credit Score Paths","q":"A prospect says 'I don't want to pull my credit at all.' Best option?","opts":["Elective","ClarityPay","Split It","Coach Financing"],"a":2},
-{"cat":"Credit Score Paths","q":"A prospect needs the lowest possible monthly payments and has a 680+ score. Best fit?","opts":["Split It","Elective","Coach Financing","ClarityPay"],"a":3},
-{"cat":"Credit Score Paths","q":"For a 680+ score client focused on low monthly payments, what is the recommended order?","opts":["Split It → Coach","ClarityPay → Elective → Split It","Elective only","Coach → ClarityPay"],"a":1},
-{"cat":"Packages","q":"What is the price of the Bronze package?","opts":["$4,997","$5,997","$7,997","$9,997"],"a":1},
-{"cat":"Packages","q":"What is the price of the Silver package?","opts":["$7,997","$8,997","$9,997","$11,997"],"a":1},
-{"cat":"Packages","q":"What is the price of the Scale package?","opts":["$12,997","$13,997","$14,997","$16,997"],"a":2},
-{"cat":"Packages","q":"How many VendScout leads does the Bronze package include?","opts":["5,000 leads","500 leads","5 leads","200 leads"],"a":2},
-{"cat":"Packages","q":"How many VendScout leads does the Silver package include?","opts":["5,000 leads","500 leads","5 leads","200 leads"],"a":1},
-{"cat":"Packages","q":"How many VendScout leads does the Scale package include?","opts":["5,000 leads","500 leads","5 leads","200 leads"],"a":0},
-{"cat":"Packages","q":"Which feature is exclusive to the Scale package?","opts":["VendScout access","1:1 Coach with an Ambassador (12 Sessions) + Bi-Weekly Mastermind","Discord community","Machine Add-On credit"],"a":1},
-{"cat":"Packages","q":"What does the Machine Add-On / Machine Credit offer?","opts":["Free shipping on machines","Credit toward purchasing vending machines","Discount on VendScout","Access to premium leads"],"a":1},
-{"cat":"Packages","q":"Which package is the entry/foundational tier to launch your vending business?","opts":["Bronze","Silver","Scale","Platinum"],"a":0},
-{"cat":"Packages","q":"A 'Live Event Ticket' is included with which package?","opts":["Bronze","Silver","Scale","All packages"],"a":2},
-{"cat":"Onboarding & Post-Close","q":"After a deal is won, which CRM status should the rep set?","opts":["Lead","Closed-Won","Pending","Follow-Up"],"a":1},
-{"cat":"Onboarding & Post-Close","q":"If onboarding invites are NOT being sent automatically, what should the rep do?","opts":["Wait 48 hours","Manually update/resend via the Airtable, and reach out to Glenda for invites","Refund the customer","Re-run the sales call"],"a":1},
-{"cat":"Onboarding & Post-Close","q":"Who do you reach out to for Customer Success / onboarding invites if they aren't being sent?","opts":["Mike","Anthony","Glenda","Tristan"],"a":2},
-{"cat":"Onboarding & Post-Close","q":"Which resource documents the correct steps to take immediately after a call?","opts":["Pre-Call SOP","Post-Call SOP","Discovery Script","Probing Questions"],"a":1},
-{"cat":"Onboarding & Post-Close","q":"What is the proper workflow for marking someone as Closed Won?","opts":["Flip the status to Closed Won immediately after the call","Once payment is made: update all required (*) custom fields in Close CRM, get the PandaDoc signed, download and upload it to the Files section in Close CRM, then flip the opportunity to Closed Won with the dollar value","Send onboarding invites first, then take payment","Mark Closed Won first, then confirm payment"],"a":1},
-{"cat":"Objection Handling","q":"On a money objection, before handling it you should first confirm the prospect:","opts":["Has a credit card","Genuinely believes the solution can get them to their goal","Has talked to their spouse","Wants a refund policy"],"a":1},
-{"cat":"Objection Handling","q":"For an 'I\'ve been burned before' objection, the best response is:","opts":["Offer a discount","Acknowledge, ask what happened, and re-establish trust with proof","End the call","Skip to closing"],"a":1},
-{"cat":"Objection Handling","q":"True or False: You should handle objections before confirming belief in the solution.","opts":["True","False"],"a":1},
-{"cat":"Objection Handling","q":"A prospect says 'I need to think about it.' Best next step?","opts":["Say OK and hang up","Ask what specifically they need to think through and address it","Send a follow-up email and wait","Offer a discount immediately"],"a":1}
-];
-var pool=[], idx=0, score=0, answered=false, log=[];
-function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
-function start(){
-  var picked=shuffle(BANK).slice(0,NUM);
-  pool=picked.map(function(q){
-    var order=shuffle(q.opts.map(function(_,i){return i;}));
-    return {cat:q.cat,q:q.q,opts:order.map(function(i){return q.opts[i];}),a:order.indexOf(q.a)};
-  });
-  idx=0;score=0;log=[];render();
-}
-function render(){
-  var app=document.getElementById('app');
-  if(idx>=pool.length){return results();}
-  var q=pool[idx];answered=false;
-  var pct=Math.round((idx)/NUM*100);
-  var h='<div class="card"><div class="bar"><i style="width:'+pct+'%"></i></div>';
-  h+='<div class="meta"><span>Question '+(idx+1)+' of '+NUM+'</span><span>Score: '+score+' / '+idx+'</span></div>';
-  h+='<span class="cat">'+q.cat+'</span>';
-  h+='<p class="q">'+q.q+'</p>';
-  var L=['A','B','C','D','E'];
-  q.opts.forEach(function(o,i){
-    h+='<button class="opt" data-i="'+i+'" onclick="pick('+i+')"><span class="ltr">'+L[i]+'</span>'+o+'</button>';
-  });
-  h+='<div id="fb"></div>';
-  h+='<div class="row"><button id="next" class="btn" disabled onclick="next()">Next &rarr;</button></div></div>';
-  app.innerHTML=h;
-}
-function pick(i){
-  if(answered)return;answered=true;
-  var q=pool[idx];var correct=q.a;
-  var btns=document.querySelectorAll('.opt');
-  btns.forEach(function(b){b.disabled=true;var bi=+b.getAttribute('data-i');if(bi===correct)b.classList.add('correct');if(bi===i&&i!==correct)b.classList.add('wrong');});
-  var fb=document.getElementById('fb');
-  var ok=(i===correct);
-  if(ok){score++;fb.innerHTML='<div class="fb ok">&#10003; Correct!</div>';}
-  else{fb.innerHTML='<div class="fb no">&#10007; Incorrect &mdash; correct answer: <b>'+q.opts[correct]+'</b></div>';}
-  log.push({q:q.q,picked:q.opts[i],correct:q.opts[correct],ok:ok});
-  document.getElementById('next').disabled=false;
-  document.getElementById('next').textContent = (idx+1>=pool.length)?'See Results':'Next →';
-}
-function next(){idx++;render();}
-function results(){
-  var app=document.getElementById('app');
-  var pct=Math.round(score/NUM*100);
-  var passed=score/NUM>=PASS;
-  var h='<div class="card" style="text-align:center">';
-  h+='<div class="bar"><i style="width:100%"></i></div>';
-  h+='<div class="pill '+(passed?'pass':'fail')+'">'+(passed?'PASSED':'NOT YET &mdash; 80% NEEDED')+'</div>';
-  h+='<div class="score-big '+(passed?'pass':'fail')+'">'+pct+'%</div>';
-  h+='<p style="margin:0;font-weight:600">You got '+score+' out of '+NUM+' correct.</p>';
-  h+='<div class="row" style="justify-content:center"><button class="btn" onclick="start()">Retake (new questions)</button></div>';
-  h+='<div class="review" style="text-align:left">';
-  var misses=log.filter(function(x){return !x.ok;});
-  if(misses.length){h+='<h3>Review what you missed</h3>';
-    misses.forEach(function(m){h+='<div class="ritem miss"><div class="rq">'+m.q+'</div><div class="ra">Your answer: '+m.picked+' &nbsp;|&nbsp; Correct: <b>'+m.correct+'</b></div></div>';});
-  } else {h+='<h3>Perfect score &mdash; nothing missed.</h3>';}
-  h+='</div>';
-  h+='<div class="foot">&#128269; Need to look something up? <a href="https://app.notion.com/p/Vendingpreneurs-Master-Document-30e89db6cd1980598b0acec780b04e8e" target="_blank" rel="noopener">Search the Vendingpreneurs Resources</a></div>';
-  h+='</div>';
-  app.innerHTML=h;window.scrollTo(0,0);
-}
-start();
-</script>
+<div class="grid">
+  <a href="packages-quiz.html" class="card pkg">
+    <div class="icon pkg">&#128230;</div>
+    <h2>Packages &amp; Onboarding</h2>
+    <p>Master package pricing, tier value gaps, downsell logic, what clients lose at each level, and the full Closed Won workflow.</p>
+    <div><span class="tag pkg">Pricing</span><span class="tag pkg">Bronze/Silver/Scale</span><span class="tag pkg">Downsell Logic</span><span class="tag pkg">Onboarding</span></div><br>
+    <span class="cta pkg">Start Quiz</span>
+  </a>
+  <a href="financing-quiz.html" class="card fin">
+    <div class="icon fin">&#128179;</div>
+    <h2>Financing &amp; Credit Paths</h2>
+    <p>Know every financing option cold - the perfect scenario for each, when NOT to use them, credit score decision trees, and edge cases.</p>
+    <div><span class="tag fin">Elective</span><span class="tag fin">Split It</span><span class="tag fin">ClarityPay</span><span class="tag fin">Coach</span><span class="tag fin">Credit Paths</span></div><br>
+    <span class="cta fin">Start Quiz</span>
+  </a>
+</div>
+<div class="admin-bar"><a href="admin.html">Edit Questions (Admin)</a></div>
 </body>
 </html>
