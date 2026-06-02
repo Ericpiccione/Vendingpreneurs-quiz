@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Quiz Editor – Vendingpreneurs</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;background:#f0f2f5;color:#1a1a1a}
+.hdr{background:linear-gradient(110deg,#1f7af0,#0ea5e9);color:#fff;padding:18px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.hdr h1{font-size:20px;font-weight:700}.hdr p{font-size:12px;opacity:.85;margin-top:2px}
+.toolbar{background:#fff;padding:12px 24px;border-bottom:1px solid #e2e8f0;display:flex;gap:8px;align-items:center;flex-wrap:wrap;position:sticky;top:0;z-index:100;box-shadow:0 2px 6px rgba(0,0,0,.06)}
+.btn{padding:7px 14px;border-radius:8px;border:none;font-size:13px;font-weight:600;cursor:pointer;transition:.15s;text-decoration:none;display:inline-block}
+.bp{background:#1f7af0;color:#fff}.bp:hover{background:#1565d8}
+.bs{background:#16a34a;color:#fff}.bs:hover{background:#15803d}
+.bd{background:#dc2626;color:#fff}.bd:hover{background:#b91c1c}
+.bn{background:#e2e8f0;color:#374151}.bn:hover{background:#cbd5e1}
+.bw{background:#f59e0b;color:#fff}.bw:hover{background:#d97706}
+select,input[type=text]{padding:7px 10px;border:1px solid #d1d5db;border-radius:7px;font-size:13px}
+.wrap{padding:20px 24px;max-width:1280px;margin:0 auto}
+.stats{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.stat{background:#fff;border-radius:10px;padding:12px 18px;box-shadow:0 1px 3px rgba(0,0,0,.07);text-align:center;min-width:120px}
+.stat .n{font-size:26px;font-weight:700;color:#1f7af0}.stat .l{font-size:11px;color:#64748b;margin-top:2px}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+thead{background:#1f7af0;color:#fff}
+th{padding:11px 13px;text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+td{padding:10px 13px;border-bottom:1px solid #f1f5f9;vertical-align:top;font-size:13px}
+tr:last-child td{border:none}tr:hover td{background:#f8fafc}
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap}
+.cf{background:#dbeafe;color:#1e40af}.cc{background:#dcfce7;color:#166534}
+.cp{background:#fef3c7;color:#92400e}.co{background:#ede9fe;color:#5b21b6}.cob{background:#fee2e2;color:#991b1b}
+.opts{list-style:none;padding:0}
+.opts li{display:flex;gap:5px;align-items:flex-start;margin-bottom:3px;font-size:12px}
+.opts li .ltr{min-width:18px;font-weight:700;color:#94a3b8}
+.opts li.ok .ltr{color:#16a34a}.opts li.ok span{color:#16a34a;font-weight:600}
+.ck{font-size:10px;background:#dcfce7;color:#16a34a;padding:1px 5px;border-radius:10px;margin-left:3px}
+.actions{display:flex;gap:4px;flex-direction:column}
+.actions .btn{padding:4px 8px;font-size:11px}
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center;padding:16px}
+.ov.on{display:flex}
+.modal{background:#fff;border-radius:14px;padding:24px;width:100%;max-width:620px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.modal h2{font-size:17px;margin-bottom:16px;color:#1e293b}
+.fg{margin-bottom:12px}
+.fg label{display:block;font-size:11px;font-weight:600;color:#374151;margin-bottom:4px;text-transform:uppercase;letter-spacing:.4px}
+.fg input,.fg select,.fg textarea{width:100%;padding:8px 11px;border:1px solid #d1d5db;border-radius:8px;font-size:13px;font-family:inherit}
+.fg textarea{resize:vertical;min-height:55px}
+.orow{display:flex;gap:7px;align-items:center;margin-bottom:7px}
+.orow input{flex:1;padding:7px 10px;border:1px solid #d1d5db;border-radius:7px;font-size:13px;font-family:inherit}
+.orow .cr{display:flex;align-items:center;gap:3px;font-size:12px;white-space:nowrap}
+.mfoot{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;padding-top:14px;border-top:1px solid #e2e8f0}
+.toast{position:fixed;bottom:20px;right:20px;background:#1e293b;color:#fff;padding:11px 18px;border-radius:10px;font-size:13px;z-index:9999;opacity:0;transform:translateY(8px);transition:.3s;pointer-events:none}
+.toast.on{opacity:1;transform:translateY(0)}
+.cbox{background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;font-size:11px;font-family:monospace;overflow:auto;white-space:pre-wrap;word-break:break-all;max-height:260px;margin-top:8px}
+.info{background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:13px;line-height:1.6;color:#1e40af;display:none}
+.info strong{display:block;margin-bottom:3px;font-size:14px}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div><h1>Quiz Question Editor</h1><p>Vendingpreneurs Knowledge Quiz &mdash; Edit questions without coding</p></div>
+  <div style="display:flex;gap:7px;flex-wrap:wrap">
+    <button class="btn bs" onclick="openAdd()">+ Add Question</button>
+    <button class="btn bw" onclick="doExport()">Export JSON</button>
+    <button class="btn bp" onclick="toggleInfo()">How to Save</button>
+  </div>
+</div>
+<div class="toolbar">
+  <input type="text" id="srch" placeholder="Search..." oninput="render()" style="width:200px">
+  <select id="catF" onchange="render()"><option value="">All Categories</option></select>
+  <span id="cnt" style="font-size:12px;color:#64748b;margin-left:4px"></span>
+</div>
+<div class="wrap">
+  <div class="info" id="infoBox">
+    <strong>How to save changes to the live quiz:</strong>
+    1. Edit questions below using the Edit buttons.<br>
+    2. Click <strong>Export JSON</strong> and copy the output.<br>
+    3. Open <a href="https://github.com/Ericpiccione/Vendingpreneurs-quiz/edit/main/index.html" target="_blank" style="color:#1d4ed8">GitHub Editor</a>.<br>
+    4. Find <code>var BANK = [</code> and select through the closing <code>];</code> — paste your clipboard.<br>
+    5. Click <strong>Commit changes</strong>. Quiz updates in ~60 seconds.
+  </div>
+  <div class="stats" id="statsBar"></div>
+  <table><thead><tr><th style="width:36px">#</th><th style="width:105px">Category</th><th>Question</th><th style="width:270px">Options</th><th style="width:75px">Actions</th></tr></thead>
+  <tbody id="tb"></tbody></table>
+</div>
+
+<div class="ov" id="editOv">
+  <div class="modal">
+    <h2 id="mTitle">Edit Question</h2>
+    <div class="fg"><label>Category</label>
+      <select id="eCat"><option>Financing</option><option>Credit Score Paths</option><option>Packages</option><option>Onboarding &amp; Post-Close</option><option>Objection Handling</option></select>
+    </div>
+    <div class="fg"><label>Question</label><textarea id="eQ" rows="3"></textarea></div>
+    <div class="fg"><label>Options &amp; Correct Answer</label><div id="optRows"></div>
+      <button class="btn bn" onclick="addOpt()" style="margin-top:5px;font-size:12px">+ Add Option</button>
+    </div>
+    <div class="mfoot">
+      <button class="btn bn" onclick="closeModal()">Cancel</button>
+      <button class="btn bd" id="delBtn" onclick="delQ()">Delete</button>
+      <button class="btn bp" onclick="saveQ()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="ov" id="expOv">
+  <div class="modal">
+    <h2>Exported Question Bank</h2>
+    <p style="font-size:12px;color:#64748b;margin-bottom:8px">Copy everything below and paste into index.html, replacing <code>var BANK = [...];</code></p>
+    <button class="btn bp" onclick="copyExp()" style="margin-bottom:7px">Copy to Clipboard</button>
+    <div class="cbox" id="expBox"></div>
+    <div class="mfoot">
+      <button class="btn bn" onclick="document.getElementById('expOv').classList.remove('on')">Close</button>
+      <a class="btn bs" href="https://github.com/Ericpiccione/Vendingpreneurs-quiz/edit/main/index.html" target="_blank">Open GitHub Editor</a>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+var BANK = [{"cat":"Financing","q":"Which financing option is the <em>default first choice</em> for most clients?","opts":["ClarityPay","Split It","Elective","Coach Financing"],"a":2},{"cat":"Financing","q":"What is the minimum credit score to start with Elective?","opts":["480+","550+","620+","700+"],"a":1},{"cat":"Financing","q":"Elective typically offers up to how many months of installments for well-qualified applicants (700+)?","opts":["6 months","12 months","18 months","36 months"],"a":2},{"cat":"Financing","q":"Which financing option requires <em>no credit check</em> and does <em>not</em> affect the customer's credit score?","opts":["Elective","ClarityPay","Coach Financing","Split It"],"a":3},{"cat":"Financing","q":"Split It is best described as:","opts":["Lowest monthly payments, requires 680+","No credit check, no ding to credit — simple payments spread over the year","18-month installments for 700+ score","Best for clients who want the longest term"],"a":1},{"cat":"Financing","q":"ClarityPay is best suited for clients who:","opts":["Want no credit check","Have a score below 550","Are looking for the lowest possible monthly payments","Need same-day funding"],"a":2},{"cat":"Financing","q":"What is the maximum financing limit for Elective?","opts":["$10,000","$15,000","$30,000","No limit"],"a":1},{"cat":"Financing","q":"What is the maximum financing limit for ClarityPay?","opts":["$10,000","$15,000","$30,000","$50,000"],"a":2},{"cat":"Financing","q":"What credit score does ClarityPay's 36-month term require?","opts":["600+","620+","680+","No minimum"],"a":2},{"cat":"Financing","q":"True or False: Split It charges the full amount monthly.","opts":["True","False"],"a":1},{"cat":"Financing","q":"What additional cost should clients expect when choosing Elective, Split It, or ClarityPay?","opts":["No extra cost","A 5% processing fee","A 15% financing fee to cover provider costs","An application fee that varies by lender"],"a":2},{"cat":"Financing","q":"Which option is the <em>last resort</em> when all financing options are declined?","opts":["Split It","ClarityPay","Elective","Coach Financing"],"a":3},{"cat":"Financing","q":"A client can put $3,000 down but can't finance the full balance. What's a creative solution?","opts":["Decline them","Partial pay + finance the remainder","Only offer Pay in Full","Send them to Elective only"],"a":1},{"cat":"Financing","q":"Which is true of the 'Pay in Full' (PIF) option?","opts":["Includes a 15% financing fee","No additional fees / best value","Requires 680+ credit","Up to 18 months"],"a":1},{"cat":"Financing","q":"True or False: Elective is available to California residents.","opts":["True","False"],"a":0},{"cat":"Financing","q":"True or False: Canadian residents can use Elective.","opts":["True","False"],"a":0},{"cat":"Credit Score Paths","q":"A prospect has a 720 score. What do you offer first?","opts":["Coach Financing","Split It","Elective","ClarityPay"],"a":2},{"cat":"Credit Score Paths","q":"A prospect has a 700+ score. What is the recommended financing order?","opts":["Coach → Split It","Elective → ClarityPay → Split It","Split It → Elective","ClarityPay only"],"a":1},{"cat":"Credit Score Paths","q":"A prospect has a 580 score. What do you lead with?","opts":["Coach Financing","ClarityPay","Elective","Split It"],"a":2},{"cat":"Credit Score Paths","q":"A prospect has a 580 score and Elective declines them. What's the next step?","opts":["End the conversation","Try ClarityPay, and ask if Split It or a high-limit card is an option","Go straight to Coach Financing","Offer Pay in Full only"],"a":1},{"cat":"Credit Score Paths","q":"A prospect's score is below 550. What is the correct approach?","opts":["Lead with Elective","Lead with ClarityPay","Ask if Split It or a high-limit card is possible before going to Coach Financing","Tell them financing isn't available"],"a":2},{"cat":"Credit Score Paths","q":"A prospect says 'I don't want to pull my credit at all.' Best option?","opts":["Elective","ClarityPay","Split It","Coach Financing"],"a":2},{"cat":"Credit Score Paths","q":"A prospect needs the lowest possible monthly payments and has a 680+ score. Best fit?","opts":["Split It","Elective","Coach Financing","ClarityPay"],"a":3},{"cat":"Credit Score Paths","q":"For a 680+ score client focused on low monthly payments, what is the recommended order?","opts":["Split It → Coach","ClarityPay → Elective → Split It","Elective only","Coach → ClarityPay"],"a":1},{"cat":"Packages","q":"What is the price of the Bronze package?","opts":["$4,997","$5,997","$7,997","$9,997"],"a":1},{"cat":"Packages","q":"What is the price of the Silver package?","opts":["$7,997","$8,997","$9,997","$11,997"],"a":1},{"cat":"Packages","q":"What is the price of the Scale package?","opts":["$12,997","$13,997","$14,997","$16,997"],"a":2},{"cat":"Packages","q":"How many VendScout leads does the Bronze package include?","opts":["5,000 leads","500 leads","5 leads","200 leads"],"a":2},{"cat":"Packages","q":"How many VendScout leads does the Silver package include?","opts":["5,000 leads","500 leads","5 leads","200 leads"],"a":1},{"cat":"Packages","q":"How many VendScout leads does the Scale package include?","opts":["5,000 leads","500 leads","5 leads","200 leads"],"a":0},{"cat":"Packages","q":"Which feature is exclusive to the Scale package?","opts":["VendScout access","1:1 Coach with an Ambassador (12 Sessions) + Bi-Weekly Mastermind","Discord community","Machine Add-On credit"],"a":1},{"cat":"Packages","q":"What does the Machine Add-On / Machine Credit offer?","opts":["Free shipping on machines","Credit toward purchasing vending machines","Discount on VendScout","Access to premium leads"],"a":1},{"cat":"Packages","q":"Which package is the entry/foundational tier to launch your vending business?","opts":["Bronze","Silver","Scale","Platinum"],"a":0},{"cat":"Packages","q":"A 'Live Event Ticket' is included with which package?","opts":["Bronze","Silver","Scale","All packages"],"a":2},{"cat":"Onboarding & Post-Close","q":"After a deal is won, which CRM status should the rep set?","opts":["Lead","Closed-Won","Pending","Follow-Up"],"a":1},{"cat":"Onboarding & Post-Close","q":"If onboarding invites are NOT being sent automatically, what should the rep do?","opts":["Wait 48 hours","Manually update/resend via the Airtable, and reach out to Glenda for invites","Refund the customer","Re-run the sales call"],"a":1},{"cat":"Onboarding & Post-Close","q":"Who do you reach out to for Customer Success / onboarding invites if they aren't being sent?","opts":["Mike","Anthony","Glenda","Tristan"],"a":2},{"cat":"Onboarding & Post-Close","q":"Which resource documents the correct steps to take immediately after a call?","opts":["Pre-Call SOP","Post-Call SOP","Discovery Script","Probing Questions"],"a":1},{"cat":"Onboarding & Post-Close","q":"What is the proper workflow for marking someone as Closed Won?","opts":["Flip the status to Closed Won immediately after the call","Once payment is made: update all required (*) custom fields in Close CRM, get the PandaDoc signed, download and upload it to the Files section in Close CRM, then flip the opportunity to Closed Won with the dollar value","Send onboarding invites first, then take payment","Mark Closed Won first, then confirm payment"],"a":1},{"cat":"Objection Handling","q":"On a money objection, before handling it you should first confirm the prospect:","opts":["Has a credit card","Genuinely believes the solution can get them to their goal","Has talked to their spouse","Wants a refund policy"],"a":1},{"cat":"Objection Handling","q":"For an 'I\\'ve been burned before' objection, the best response is:","opts":["Offer a discount","Acknowledge, ask what happened, and re-establish trust with proof","End the call","Skip to closing"],"a":1},{"cat":"Objection Handling","q":"True or False: You should handle objections before confirming belief in the solution.","opts":["True","False"],"a":1},{"cat":"Objection Handling","q":"A prospect says 'I need to think about it.' Best next step?","opts":["Say OK and hang up","Ask what specifically they need to think through and address it","Send a follow-up email and wait","Offer a discount immediately"],"a":1}];
+var eIdx = -1;
+
+function catCls(c){
+  if(c.includes('Fin')) return 'cf';
+  if(c.includes('Credit')) return 'cc';
+  if(c.includes('Pack')) return 'cp';
+  if(c.includes('Onboard')) return 'co';
+  return 'cob';
+}
+
+function init(){
+  var cats=[...new Set(BANK.map(q=>q.cat))];
+  var sel=document.getElementById('catF');
+  cats.forEach(c=>{var o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o);});
+  renderStats(); render();
+}
+
+function renderStats(){
+  var cats={};
+  BANK.forEach(q=>cats[q.cat]=(cats[q.cat]||0)+1);
+  var bar=document.getElementById('statsBar');
+  bar.innerHTML='<div class="stat"><div class="n">'+BANK.length+'</div><div class="l">Total</div></div>'
+    +Object.entries(cats).map(([c,n])=>'<div class="stat"><div class="n">'+n+'</div><div class="l">'+c+'</div></div>').join('');
+}
+
+function render(){
+  var srch=document.getElementById('srch').value.toLowerCase();
+  var cf=document.getElementById('catF').value;
+  var tb=document.getElementById('tb');
+  var rows='',cnt=0;
+  BANK.forEach((q,i)=>{
+    if(cf&&q.cat!==cf)return;
+    var qt=q.q.replace(/<[^>]+>/g,'');
+    if(srch&&!qt.toLowerCase().includes(srch)&&!q.opts.join(' ').toLowerCase().includes(srch))return;
+    cnt++;
+    var opts=q.opts.map((o,j)=>{
+      var l=String.fromCharCode(65+j),ok=j===q.a;
+      return '<li class="'+(ok?'ok':'')+'"><span class="ltr">'+l+'</span><span>'+o+(ok?'<span class="ck">✓</span>':'')+'</span></li>';
+    }).join('');
+    rows+='<tr><td style="color:#94a3b8;font-weight:600">'+(i+1)+'</td>'
+      +'<td><span class="badge '+catCls(q.cat)+'">'+q.cat+'</span></td>'
+      +'<td style="font-weight:500">'+qt+'</td>'
+      +'<td><ul class="opts">'+opts+'</ul></td>'
+      +'<td><div class="actions"><button class="btn bp" onclick="openEdit('+i+')">Edit</button>'
+      +'<button class="btn bd" onclick="confirmDel('+i+')">Del</button></div></td></tr>';
+  });
+  tb.innerHTML=rows;
+  document.getElementById('cnt').textContent=cnt+' of '+BANK.length;
+}
+
+function openAdd(){
+  eIdx=-1;
+  document.getElementById('mTitle').textContent='Add Question';
+  document.getElementById('eCat').value='Financing';
+  document.getElementById('eQ').value='';
+  document.getElementById('delBtn').style.display='none';
+  buildOpts(['','','',''],0);
+  document.getElementById('editOv').classList.add('on');
+}
+
+function openEdit(i){
+  eIdx=i;var q=BANK[i];
+  document.getElementById('mTitle').textContent='Edit Q'+(i+1);
+  document.getElementById('eCat').value=q.cat;
+  document.getElementById('eQ').value=q.q.replace(/<[^>]+>/g,'');
+  document.getElementById('delBtn').style.display='';
+  buildOpts(q.opts,q.a);
+  document.getElementById('editOv').classList.add('on');
+}
+
+function buildOpts(opts,ci){
+  var c=document.getElementById('optRows');c.innerHTML='';
+  opts.forEach((o,i)=>{
+    var r=document.createElement('div');r.className='orow';
+    r.innerHTML='<input type="text" class="ot" placeholder="Option '+(i+1)+'" value="'+o.replace(/"/g,'&quot;')+'">'
+      +'<label class="cr"><input type="radio" name="cr" value="'+i+'" '+(i===ci?'checked':'')+'>Correct</label>'
+      +'<button class="btn bn" onclick="rmOpt(this)" style="padding:3px 7px;font-size:11px">✕</button>';
+    c.appendChild(r);
+  });
+}
+
+function addOpt(){
+  var c=document.getElementById('optRows'),i=c.children.length;
+  var r=document.createElement('div');r.className='orow';
+  r.innerHTML='<input type="text" class="ot" placeholder="Option '+(i+1)+'">'
+    +'<label class="cr"><input type="radio" name="cr" value="'+i+'">Correct</label>'
+    +'<button class="btn bn" onclick="rmOpt(this)" style="padding:3px 7px;font-size:11px">✕</button>';
+  c.appendChild(r);
+}
+
+function rmOpt(btn){
+  btn.parentElement.remove();
+  document.querySelectorAll('.orow').forEach((r,i)=>{
+    r.querySelector('input[type=radio]').value=i;
+    r.querySelector('.ot').placeholder='Option '+(i+1);
+  });
+}
+
+function saveQ(){
+  var cat=document.getElementById('eCat').value;
+  var q=document.getElementById('eQ').value.trim();
+  if(!q){toast('Enter a question');return;}
+  var opts=Array.from(document.querySelectorAll('.ot')).map(x=>x.value.trim()).filter(v=>v);
+  if(opts.length<2){toast('Add at least 2 options');return;}
+  var cr=document.querySelector('input[name=cr]:checked');
+  if(!cr){toast('Select the correct answer');return;}
+  var a=parseInt(cr.value);
+  if(a>=opts.length){toast('Correct answer out of range');return;}
+  var entry={cat,q,opts,a};
+  if(eIdx===-1){BANK.push(entry);toast('Question added!');}
+  else{BANK[eIdx]=entry;toast('Saved!');}
+  closeModal();renderStats();render();
+}
+
+function closeModal(){document.getElementById('editOv').classList.remove('on');}
+
+function confirmDel(i){
+  if(confirm('Delete: "'+BANK[i].q.replace(/<[^>]+>/g,'')+'"?')){
+    BANK.splice(i,1);renderStats();render();toast('Deleted');
+  }
+}
+
+function delQ(){
+  if(eIdx===-1)return;
+  if(confirm('Delete this question?')){BANK.splice(eIdx,1);closeModal();renderStats();render();toast('Deleted');}
+}
+
+function doExport(){
+  var json='var BANK = '+JSON.stringify(BANK)+';';
+  document.getElementById('expBox').textContent=json;
+  document.getElementById('expOv').classList.add('on');
+}
+
+function copyExp(){
+  var t=document.getElementById('expBox').textContent;
+  navigator.clipboard.writeText(t).then(()=>toast('Copied!')).catch(()=>{
+    var el=document.createElement('textarea');el.value=t;document.body.appendChild(el);el.select();
+    document.execCommand('copy');document.body.removeChild(el);toast('Copied!');
+  });
+}
+
+function toggleInfo(){
+  var b=document.getElementById('infoBox');
+  b.style.display=b.style.display==='none'||!b.style.display?'block':'none';
+}
+
+function toast(msg){
+  var t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');
+  setTimeout(()=>t.classList.remove('on'),2500);
+}
+
+document.querySelectorAll('.ov').forEach(el=>{
+  el.addEventListener('click',e=>{if(e.target===el)el.classList.remove('on');});
+});
+
+init();
+</script>
+</body>
+</html>
